@@ -34,15 +34,15 @@ motor2.ChangeDutyCycle(0)
 # The getch method can determine which key has been pressed
 # by the user on the keyboard by accessing the system files 
 # It will then return the pressed key as a variable
-def getch():
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
-    try:
-        tty.setraw(sys.stdin.fileno())
-        ch = sys.stdin.read(1)
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    return ch
+#def getch():
+#    fd = sys.stdin.fileno()
+#    old_settings = termios.tcgetattr(fd)
+#    try:
+#       tty.setraw(sys.stdin.fileno())
+#        ch = sys.stdin.read(1)
+#    finally:
+#        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+#    return ch
 
 # This section of code defines the methods used to determine
 # whether a motor needs to spin forward or backwards. The
@@ -127,57 +127,142 @@ io.output(motor2_in2_pin, False)
 #print("w/s: acceleration")
 #print("a/d: steering")
 #print("l: lights")
-print("use w/s/a/d to control")
-print("x: exit")
+#print("use w/s/a/d to control")
+#print("x: exit")
 
 # Infinite loop that will not end until the user presses the
 # exit key
-while True:
+#while True:
     # Keyboard character retrieval method is called and saved
     # into variable
-    char = getch()
+#    char = getch()
 
     # The car will drive forward when the "w" key is pressed
-    if(char == "w"):
-        motor1_forward()
-        motor2_forward()
-        motor1.ChangeDutyCycle(99)
-        motor2.ChangeDutyCycle(99)
+#    if(char == "w"):
+#        motor1_forward()
+#        motor2_forward()
+#        motor1.ChangeDutyCycle(99)
+#        motor2.ChangeDutyCycle(99)
 
     # The car will reverse when the "s" key is pressed
-    if(char == "s"):
-        motor1_reverse()
-        motor2_reverse()
-        motor1.ChangeDutyCycle(99)
-        motor2.ChangeDutyCycle(99)
+#    if(char == "s"):
+#        motor1_reverse()
+#        motor2_reverse()
+#        motor1.ChangeDutyCycle(99)
+#        motor2.ChangeDutyCycle(99)
 
     # The "a" key will toggle the steering left
-    if(char == "a"):
+#    if(char == "a"):
         #toggleSteering("left")
-        turn_left()
+#        turn_left()
 
     # The "d" key will toggle the steering right
-    if(char == "d"):
+#    if(char == "d"):
         #toggleSteering("right")
-        turn_right
+#        turn_right
 
     # The "l" key will toggle the LEDs on/off
     #if(char == "l"):
     #    toggleLights()
 
     # The "x" key will break the loop and exit the program
-    if(char == "x"):
-        print("Program Ended")
-        break
+#    if(char == "x"):
+#        print("Program Ended")
+#        break
 
     # At the end of each loop the acceleration motor will stop
     # and wait for its next command
-    motor1.ChangeDutyCycle(0)
-    motor2.ChangeDutyCycle(0)
+#    motor1.ChangeDutyCycle(0)
+#    motor2.ChangeDutyCycle(0)
 
     # The keyboard character variable will be set to blank, ready
     # to save the next key that is pressed
-    char = ""
+#    char = ""
+
+#wii remote
+button_delay = 0.1
+print 'press 1+2 on your wii remote now ...'
+time.sleep(1)
+try:
+  wii=cwiid.Wiimote()
+except RuntimeError:
+  print "Error opening wiimote connection"
+  quit()
+  
+print 'Wii Remote connected...\n'
+print 'Press PLUS and MINUS together to disconnect and quit.\n'
+wii.rpt_mode = cwiid.RPT_BTN
+ 
+while True:
+
+  buttons = wii.state['buttons']
+
+  # If Plus and Minus buttons pressed
+  # together then rumble and quit.
+  if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):  
+    print '\nClosing connection ...'
+    wii.rumble = 1
+    time.sleep(1)
+    wii.rumble = 0
+    exit(wii)  
+  
+  # Check if other buttons are pressed by
+  # doing a bitwise AND of the buttons number
+  # and the predefined constant for that button.
+  if (buttons & cwiid.BTN_LEFT):
+    print 'Left pressed'
+    time.sleep(button_delay)
+
+  if(buttons & cwiid.BTN_RIGHT):
+    print 'Right pressed'
+    time.sleep(button_delay)          
+
+  if (buttons & cwiid.BTN_UP):
+    print 'Up pressed'        
+    time.sleep(button_delay)  
+    motor1_forward()
+    motor2_forward()
+    motor1.ChangeDutyCycle(99)
+    motor2.ChangeDutyCycle(99)
+    
+  if (buttons & cwiid.BTN_DOWN):
+    print 'Down pressed'      
+    time.sleep(button_delay)  
+    motor1_reverse()
+    motor2_reverse()
+    motor1.ChangeDutyCycle(99)
+    motor2.ChangeDutyCycle(99)
+    
+  if (buttons & cwiid.BTN_1):
+    print 'Button 1 pressed'
+    time.sleep(button_delay)          
+
+  if (buttons & cwiid.BTN_2):
+    print 'Button 2 pressed'
+    time.sleep(button_delay)          
+
+  if (buttons & cwiid.BTN_A):
+    print 'Button A pressed'
+    time.sleep(button_delay)          
+
+  if (buttons & cwiid.BTN_B):
+    print 'Button B pressed'
+    time.sleep(button_delay)          
+
+  if (buttons & cwiid.BTN_HOME):
+    print 'Home Button pressed'
+    time.sleep(button_delay)           
+    
+  if (buttons & cwiid.BTN_MINUS):
+    print 'Minus Button pressed'
+    time.sleep(button_delay)   
+    
+  if (buttons & cwiid.BTN_PLUS):
+    print 'Plus Button pressed'
+    time.sleep(button_delay)
+  else
+    motor1.ChangeDutyCycle(0)
+    motor2.ChangeDutyCycle(0)
 
 # Program will cease all GPIO activity before terminating
 io.cleanup()
