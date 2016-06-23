@@ -1,11 +1,14 @@
 import RPi.GPIO as io
 io.setmode(io.BOARD)
 import sys, tty, termios, time
+import cwiid
 
 # These two blocks of code configure the PWM settings for
 # the two DC motors on the RC car. It defines the two GPIO
 # pins used for the input, starts the PWM and sets the
 # motors' speed to 0
+
+#Right motor setting
 motor1_in1_pin = 11
 motor1_in2_pin = 12
 io.setup(motor1_in1_pin, io.OUT)
@@ -14,6 +17,7 @@ motor1 = io.PWM(11,1000)
 motor1.start(0)
 motor1.ChangeDutyCycle(0)
 
+#Left motor setting
 motor2_in1_pin = 13
 motor2_in2_pin = 15
 io.setup(motor2_in1_pin, io.OUT)
@@ -211,11 +215,19 @@ while True:
   # and the predefined constant for that button.
   if (buttons & cwiid.BTN_LEFT):
     print 'Left pressed'
-    time.sleep(button_delay)
+    motor1_forward()
+    motor2_reverse()
+    motor1.ChangeDutyCycle(99)
+    motor2.ChangeDutyCycle(20)
+#    time.sleep(button_delay)
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
-    time.sleep(button_delay)          
+    motor1_reverse()
+    motor2_forward()
+    motor1.ChangeDutyCycle(20)
+    motor2.ChangeDutyCycle(90)
+#    time.sleep(button_delay)          
 
   if (buttons & cwiid.BTN_UP):
     print 'Up pressed'        
@@ -260,7 +272,7 @@ while True:
   if (buttons & cwiid.BTN_PLUS):
     print 'Plus Button pressed'
     time.sleep(button_delay)
-  else
+  else:
     motor1.ChangeDutyCycle(0)
     motor2.ChangeDutyCycle(0)
 
