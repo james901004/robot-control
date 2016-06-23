@@ -10,7 +10,7 @@ motor1_in1_pin = 11
 motor1_in2_pin = 12
 io.setup(motor1_in1_pin, io.OUT)
 io.setup(motor1_in2_pin, io.OUT)
-motor1 = io.PWM(4,1000)
+motor1 = io.PWM(11,1000)
 motor1.start(0)
 motor1.ChangeDutyCycle(0)
 
@@ -219,7 +219,7 @@ while True:
 
   if (buttons & cwiid.BTN_UP):
     print 'Up pressed'        
-    time.sleep(button_delay)  
+ #   time.sleep(button_delay)  
     motor1_forward()
     motor2_forward()
     motor1.ChangeDutyCycle(99)
@@ -227,7 +227,7 @@ while True:
     
   if (buttons & cwiid.BTN_DOWN):
     print 'Down pressed'      
-    time.sleep(button_delay)  
+#    time.sleep(button_delay)  
     motor1_reverse()
     motor2_reverse()
     motor1.ChangeDutyCycle(99)
