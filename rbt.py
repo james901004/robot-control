@@ -74,7 +74,9 @@ wii.rpt_mode = cwiid.RPT_BTN
 while True:
 
   buttons = wii.state['buttons']
-
+  
+  time1 = time.time()
+  
   # If Plus and Minus buttons pressed
   # together then rumble and quit.
   if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):  
@@ -83,15 +85,13 @@ while True:
     time.sleep(1)
     wii.rumble = 0
     exit(wii)  
-    
-  time1 = time()
 
   # Check if other buttons are pressed by
   # doing a bitwise AND of the buttons number
   # and the predefined constant for that button.
   if (buttons & cwiid.BTN_LEFT):
     print 'Left pressed'
-    time2 = time()
+    time2 = time.time()
     if time2 - time1 > 1:
      dutycycle = 10
     else:
@@ -104,7 +104,7 @@ while True:
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
-    time2 = time()
+    time2 = time.time()
     if time2 - time1 > 2:
      dutycycle = 10
     else:
@@ -117,7 +117,7 @@ while True:
 
   if (buttons & cwiid.BTN_UP):
     print 'Up pressed'
-    time2 = time()
+    time2 = time.time()
     if time2 - time1 > 2:
      dutycycle = 10
     else:
