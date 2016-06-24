@@ -210,12 +210,19 @@ while True:
     time.sleep(1)
     wii.rumble = 0
     exit(wii)  
-  
+    
+  time1 = time()
+
   # Check if other buttons are pressed by
   # doing a bitwise AND of the buttons number
   # and the predefined constant for that button.
   if (buttons & cwiid.BTN_LEFT):
     print 'Left pressed'
+    time2 = time()
+    if time2 - time1 > 2:
+     dutycycle = 10
+    else:
+     dutycycle = dutycycle
     motor1_forward()
     motor2_reverse()
     motor1.ChangeDutyCycle(dutycycle)
@@ -224,14 +231,24 @@ while True:
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
+    time2 = time()
+    if time2 - time1 > 2:
+     dutycycle = 10
+    else:
+     dutycycle = dutycycle
     motor1_reverse()
     motor2_forward()
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle)
-    time.sleep(button_delay)          
+    time.sleep(button_delay)
 
   if (buttons & cwiid.BTN_UP):
-    print 'Up pressed'        
+    print 'Up pressed'
+    time2 = time()
+    if time2 - time1 > 2:
+     dutycycle = 10
+    else:
+     dutycycle = dutycycle
     motor1_forward()
     motor2_forward()
     motor1.ChangeDutyCycle(dutycycle)
@@ -239,7 +256,12 @@ while True:
     time.sleep(button_delay)
     
   if (buttons & cwiid.BTN_DOWN):
-    print 'Down pressed'      
+    print 'Down pressed'
+    time2 = time()
+    if time2 - time1 > 2:
+     dutycycle = 10
+    else:
+     dutycycle = dutycycle
     motor1_reverse()
     motor2_reverse()
     motor1.ChangeDutyCycle(dutycycle)
