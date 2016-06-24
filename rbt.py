@@ -92,7 +92,8 @@ while True:
   if (buttons & cwiid.BTN_LEFT):
     print 'Left pressed'
     time2 = time.time()
-    if time2 - time1 > 1:
+    timedelta = time2 - time1
+    if timedelta > 0.5:
      dutycycle = 10
     else:
      dutycycle = dutycycle
@@ -105,7 +106,8 @@ while True:
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
     time2 = time.time()
-    if time2 - time1 > 2:
+    timedelta = time2 - time1
+    if timedelta > 0.5:
      dutycycle = 10
     else:
      dutycycle = dutycycle
@@ -118,7 +120,8 @@ while True:
   if (buttons & cwiid.BTN_UP):
     print 'Up pressed'
     time2 = time.time()
-    if time2 - time1 > 2:
+    timedelta = time2 - time1
+    if timedelta > 0.5:
      dutycycle = 10
     else:
      dutycycle = dutycycle
@@ -130,8 +133,9 @@ while True:
     
   if (buttons & cwiid.BTN_DOWN):
     print 'Down pressed'
-    time2 = time()
-    if time2 - time1 > 2:
+    time2 = time.time()
+    timedelta = time2 - time1
+    if timedelta > 0.5:
      dutycycle = 10
     else:
      dutycycle = dutycycle
@@ -143,7 +147,7 @@ while True:
     
   if (buttons & cwiid.BTN_1):
     print 'Button 1 pressed'
-    time.sleep(0.5) 
+    time.sleep(0.3) 
     if dutycycle < 100:
         dutycycle = dutycycle + 10
     else:
@@ -151,7 +155,7 @@ while True:
 
   if (buttons & cwiid.BTN_2):
     print 'Button 2 pressed'
-    time.sleep(0.5)
+    time.sleep(0.3)
     if dutycycle > 10:
         dutycycle = dutycycle - 10
     else:
