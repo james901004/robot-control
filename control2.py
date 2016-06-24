@@ -264,7 +264,8 @@ while True:
 
   if (buttons & cwiid.BTN_A):
     print 'Button A pressed'
-    time.sleep(button_delay)          
+    time.sleep(button_delay)
+    dutycycle = 10
 
   if (buttons & cwiid.BTN_B):
     print 'Button B pressed'
