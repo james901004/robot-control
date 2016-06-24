@@ -57,6 +57,7 @@ io.output(motor2_in2_pin, False)
 
 #dutycycle
 dutycycle = 10
+time1 = time.time()
 #wii remote
 button_delay = 0.1
 print 'press 1+2 on your wii remote now ...'
