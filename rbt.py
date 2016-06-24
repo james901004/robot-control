@@ -75,8 +75,6 @@ while True:
 
   buttons = wii.state['buttons']
   
-  time1 = time.time()
-  
   # If Plus and Minus buttons pressed
   # together then rumble and quit.
   if (buttons - cwiid.BTN_PLUS - cwiid.BTN_MINUS == 0):  
@@ -102,6 +100,7 @@ while True:
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
+    time1 = time.time()
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
@@ -116,6 +115,8 @@ while True:
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
+    time1 = time.time()
+
 
   if (buttons & cwiid.BTN_UP):
     print 'Up pressed'
@@ -130,6 +131,8 @@ while True:
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
+    time1 = time.time()
+
     
   if (buttons & cwiid.BTN_DOWN):
     print 'Down pressed'
@@ -144,6 +147,8 @@ while True:
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
+    time1 = time.time()
+
     
   if (buttons & cwiid.BTN_1):
     print 'Button 1 pressed'
