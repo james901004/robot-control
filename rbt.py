@@ -127,8 +127,8 @@ while True:
      dutycycle = 10
     else:
      dutycycle = dutycycle
-    motor1_forward()
-    motor2_forward()
+    motor1_reverse()
+    motor2_reverse()
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
@@ -143,29 +143,28 @@ while True:
      dutycycle = 10
     else:
      dutycycle = dutycycle
-    motor1_reverse()
-    motor2_reverse()
+    motor1_forward()
+    motor2_forward()
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
     time1 = time.time()
 
-    
   if (buttons & cwiid.BTN_1):
     print 'Button 1 pressed'
-    time.sleep(0.3) 
-    if dutycycle < 100:
-        dutycycle = dutycycle + 10
-    else:
-        dutycycle = 100
-
-  if (buttons & cwiid.BTN_2):
-    print 'Button 2 pressed'
     time.sleep(0.3)
     if dutycycle > 10:
         dutycycle = dutycycle - 10
     else:
         dutycycle = 10
+    
+  if (buttons & cwiid.BTN_2):
+    print 'Button 2 pressed'
+    time.sleep(0.3) 
+    if dutycycle < 100:
+        dutycycle = dutycycle + 10
+    else:
+        dutycycle = 100
 
   if (buttons & cwiid.BTN_A):
     print 'Button A pressed'
