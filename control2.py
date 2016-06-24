@@ -182,7 +182,8 @@ io.output(motor2_in2_pin, False)
     # The keyboard character variable will be set to blank, ready
     # to save the next key that is pressed
 #    char = ""
-
+#dutycycle
+dutycycle=10
 #wii remote
 button_delay = 0.1
 print 'press 1+2 on your wii remote now ...'
@@ -217,16 +218,16 @@ while True:
     print 'Left pressed'
     motor1_forward()
     motor2_reverse()
-    motor1.ChangeDutyCycle(99)
-    motor2.ChangeDutyCycle(20)
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle)
 #    time.sleep(button_delay)
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
     motor1_reverse()
     motor2_forward()
-    motor1.ChangeDutyCycle(20)
-    motor2.ChangeDutyCycle(90)
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle)
 #    time.sleep(button_delay)          
 
   if (buttons & cwiid.BTN_UP):
@@ -234,16 +235,16 @@ while True:
  #   time.sleep(button_delay)  
     motor1_forward()
     motor2_forward()
-    motor1.ChangeDutyCycle(99)
-    motor2.ChangeDutyCycle(99)
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle)
     
   if (buttons & cwiid.BTN_DOWN):
     print 'Down pressed'      
 #    time.sleep(button_delay)  
     motor1_reverse()
     motor2_reverse()
-    motor1.ChangeDutyCycle(99)
-    motor2.ChangeDutyCycle(99)
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle)
     
   if (buttons & cwiid.BTN_1):
     print 'Button 1 pressed'
@@ -259,7 +260,11 @@ while True:
 
   if (buttons & cwiid.BTN_B):
     print 'Button B pressed'
-    time.sleep(button_delay)          
+    time.sleep(button_delay)
+    if dutycycle<100
+        dutycycle=dutycycle+10
+    else:
+        dutycycle=10
 
   if (buttons & cwiid.BTN_HOME):
     print 'Home Button pressed'
