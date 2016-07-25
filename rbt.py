@@ -99,8 +99,8 @@ while True:
      dutycycle = dutycycle
     motor1_forward()
     motor2_reverse()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
+    motor1.ChangeDutyCycle(dutycycle * k)
+    motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -114,8 +114,8 @@ while True:
      dutycycle = dutycycle
     motor1_reverse()
     motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
+    motor1.ChangeDutyCycle(dutycycle * k)
+    motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -130,8 +130,8 @@ while True:
      dutycycle = dutycycle
     motor1_reverse()
     motor2_reverse()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
+    motor1.ChangeDutyCycle(dutycycle * k)
+    motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -146,8 +146,8 @@ while True:
      dutycycle = dutycycle
     motor1_forward()
     motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
+    motor1.ChangeDutyCycle(dutycycle * k)
+    motor2.ChangeDutyCycle(dutycycle)
     time.sleep(button_delay)
     time1 = time.time()
 
