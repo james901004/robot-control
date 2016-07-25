@@ -56,8 +56,8 @@ io.output(motor2_in1_pin, False)
 io.output(motor2_in2_pin, False)
 
 #dutycycle
-dutycycle = 3
-k = 0.5
+dutycycle = 5
+k = 0.55
 time1 = time.time()
 #wii remote
 button_delay = 0.1
@@ -94,7 +94,7 @@ while True:
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.3:
-     dutycycle = 3
+     dutycycle = 5
     else:
      dutycycle = dutycycle
     motor1_forward()
@@ -109,7 +109,7 @@ while True:
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.3:
-     dutycycle = 3
+     dutycycle = 5
     else:
      dutycycle = dutycycle
     motor1_reverse()
@@ -125,13 +125,19 @@ while True:
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.3:
-     dutycycle = 3
+     dutycycle = 5
     else:
      dutycycle = dutycycle
-    motor1_reverse()
-    motor2_reverse()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
+    if dutcycle > 10:
+        motor1_reverse()
+        motor2_reverse()
+        motor1.ChangeDutyCycle(dutycycle)
+        motor2.ChangeDutyCycle(dutycycle * k)
+    else:
+        motor1_reverse()
+        motor2_forward()
+        motor1.ChangeDutyCycle(dutycycle)
+        motor2.ChangeDutyCycle(dutycycle * k * 0.3)
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -141,31 +147,38 @@ while True:
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.3:
-     dutycycle = 3
+     dutycycle = 5
     else:
      dutycycle = dutycycle
-    motor1_forward()
-    motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
+    
+     if dutcycle > 10:
+       motor1_forward()
+       motor2_forward()
+       motor1.ChangeDutyCycle(dutycycle)
+       motor2.ChangeDutyCycle(dutycycle * k)
+    else:
+        motor1_reverse()
+        motor2_forward()
+        motor1.ChangeDutyCycle(dutycycle * 0.3)
+        motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
     time1 = time.time()
 
   if (buttons & cwiid.BTN_1):
     print 'Button 1 pressed'
     time.sleep(0.1)
-    if dutycycle > 3:
-        dutycycle = dutycycle - 3
+    if dutycycle > 5:
+        dutycycle = dutycycle - 5
     else:
-        dutycycle = 3
+        dutycycle = 5
     
   if (buttons & cwiid.BTN_2):
     print 'Button 2 pressed'
     time.sleep(0.1) 
-    if dutycycle < 15:
-        dutycycle = dutycycle + 3
+    if dutycycle < 20:
+        dutycycle = dutycycle + 5
     else:
-        dutycycle = 15
+        dutycycle = 20
 
   if (buttons & cwiid.BTN_A):
     print 'Button A pressed'
