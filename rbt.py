@@ -150,17 +150,16 @@ while True:
      dutycycle = 5
     else:
      dutycycle = dutycycle
-    
-     if dutcycle > 10:
+    if dutcycle > 10:
        motor1_forward()
        motor2_forward()
        motor1.ChangeDutyCycle(dutycycle)
        motor2.ChangeDutyCycle(dutycycle * k)
     else:
-        motor1_reverse()
-        motor2_forward()
-        motor1.ChangeDutyCycle(dutycycle * 0.3)
-        motor2.ChangeDutyCycle(dutycycle * k)
+       motor1_reverse()
+       motor2_forward()
+       motor1.ChangeDutyCycle(dutycycle * 0.3)
+       motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
     time1 = time.time()
 
