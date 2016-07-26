@@ -67,9 +67,9 @@ print 'press 1+2 on your wii remote now ...'
 time.sleep(1)
 try:
   wii=cwiid.Wiimote()
-#except RuntimeError:
-#  print "Error opening wiimote connection"
-#  quit()
+except RuntimeError:
+  print "Error opening wiimote connection"
+  quit()
   
 print 'Wii Remote connected...\n'
 print 'Press PLUS and MINUS together to disconnect and quit.\n'
