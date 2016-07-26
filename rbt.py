@@ -132,7 +132,7 @@ while True:
      dutycycle = 5
     else:
      dutycycle = dutycycle
-    if dutcycle > 10:
+    if dutycycle > 10:
         motor1_reverse()
         motor2_reverse()
         motor1.ChangeDutyCycle(dutycycle)
@@ -154,7 +154,7 @@ while True:
      dutycycle = 5
     else:
      dutycycle = dutycycle
-    if dutcycle > 10:
+    if dutycycle > 10:
        motor1_forward()
        motor2_forward()
        motor1.ChangeDutyCycle(dutycycle)
