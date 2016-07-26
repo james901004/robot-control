@@ -72,6 +72,9 @@ except RuntimeError:
   quit()
   
 print 'Wii Remote connected...\n'
+wii.rumble = 1
+time.sleep(1)
+wii.rumble = 0
 print 'Press PLUS and MINUS together to disconnect and quit.\n'
 wii.rpt_mode = cwiid.RPT_BTN
  
