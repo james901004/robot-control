@@ -2,6 +2,7 @@ import RPi.GPIO as io
 io.setmode(io.BOARD)
 import sys, tty, termios, time
 import cwiid
+import math
 
 # These two blocks of code configure the PWM settings for
 # the two DC motors on the RC car. It defines the two GPIO
@@ -58,6 +59,7 @@ io.output(motor2_in2_pin, False)
 #dutycycle
 dutycycle = 5
 k = 0.55
+n = 1
 time1 = time.time()
 #wii remote
 button_delay = 0.1
@@ -65,9 +67,9 @@ print 'press 1+2 on your wii remote now ...'
 time.sleep(1)
 try:
   wii=cwiid.Wiimote()
-except RuntimeError:
-  print "Error opening wiimote connection"
-  quit()
+#except RuntimeError:
+#  print "Error opening wiimote connection"
+#  quit()
   
 print 'Wii Remote connected...\n'
 print 'Press PLUS and MINUS together to disconnect and quit.\n'
@@ -93,7 +95,7 @@ while True:
     print 'Left pressed'
     time2 = time.time()
     timedelta = time2 - time1
-    if timedelta > 0.3:
+    if timedelta > 0.5:
      dutycycle = 5
     else:
      dutycycle = dutycycle
@@ -108,14 +110,16 @@ while True:
     print 'Right pressed'
     time2 = time.time()
     timedelta = time2 - time1
-    if timedelta > 0.3:
+    if timedelta > 0.5:
      dutycycle = 5
+     n = 1
     else:
      dutycycle = dutycycle
+    n = n + 1
     motor1_reverse()
     motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
+    motor1.ChangeDutyCycle(dutycycle * (1 - math.exp(-n)))
+    motor2.ChangeDutyCycle(dutycycle * k * (1 - math.exp(-n)))
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -124,7 +128,7 @@ while True:
     print 'Up pressed'
     time2 = time.time()
     timedelta = time2 - time1
-    if timedelta > 0.3:
+    if timedelta > 0.5:
      dutycycle = 5
     else:
      dutycycle = dutycycle
@@ -146,7 +150,7 @@ while True:
     print 'Down pressed'
     time2 = time.time()
     timedelta = time2 - time1
-    if timedelta > 0.3:
+    if timedelta > 0.5:
      dutycycle = 5
     else:
      dutycycle = dutycycle
