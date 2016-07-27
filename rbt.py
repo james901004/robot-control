@@ -27,6 +27,10 @@ motor2 = io.PWM(13,1000)
 motor2.start(0)
 motor2.ChangeDutyCycle(0)
 
+#LED setup
+io.setup(32, io.OUT)
+io.output(32, True)
+
 # This section of code defines the methods used to determine
 # whether a motor needs to spin forward or backwards. The
 # different directions are acheived by setting one of the
@@ -73,6 +77,7 @@ while not wii:
  except RuntimeError:
      if (i>50):
          print "Error opening wiimote connection"
+         io.output(32, False)
          io.cleanup()
          quit()
          break
@@ -80,6 +85,7 @@ while not wii:
      i += 1
   
 print 'Wii Remote connected...\n'
+io.output(32, False)
 wii.rumble = 1
 time.sleep(1)
 wii.rumble = 0
