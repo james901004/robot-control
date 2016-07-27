@@ -65,11 +65,19 @@ time1 = time.time()
 button_delay = 0.1
 print 'press 1+2 on your wii remote now ...'
 time.sleep(1)
-try:
-  wii=cwiid.Wiimote()
-except RuntimeError:
-  print "Error opening wiimote connection"
-  quit()
+wii = None
+i = 2
+while not wii:
+ try:
+     wii=cwiid.Wiimote()
+ except RuntimeError:
+     if (i>10):
+         io.cleanup()
+         quit()
+         break
+     print "Error opening wiimote connection"
+     print "attempt" + str(i)
+     i += 1
   
 print 'Wii Remote connected...\n'
 wii.rumble = 1
@@ -89,6 +97,7 @@ while True:
     wii.rumble = 1
     time.sleep(1)
     wii.rumble = 0
+    io.cleanup()
     exit(wii)  
 
   # Check if other buttons are pressed by
@@ -118,7 +127,7 @@ while True:
      n = 1
     else:
      dutycycle = dutycycle
-    n = n + 1
+    n += 1
     motor1_reverse()
     motor2_forward()
     motor1.ChangeDutyCycle(dutycycle * (1 - math.exp(-n)))
@@ -210,5 +219,4 @@ while True:
     motor1.ChangeDutyCycle(0)
     motor2.ChangeDutyCycle(0)
 
-# Program will cease all GPIO activity before terminating
-io.cleanup()
+
