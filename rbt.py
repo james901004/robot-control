@@ -71,7 +71,7 @@ while not wii:
  try:
      wii=cwiid.Wiimote()
  except RuntimeError:
-     if (i>20):
+     if (i>50):
          print "Error opening wiimote connection"
          io.cleanup()
          quit()
