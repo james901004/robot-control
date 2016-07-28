@@ -63,7 +63,7 @@ io.output(motor2_in2_pin, False)
 #dutycycle
 dutycycle = 5
 k = 0.55
-n = 0.1
+n = 0.2
 time1 = time.time()
 #wii remote
 button_delay = 0.1
@@ -130,10 +130,10 @@ while True:
     timedelta = time2 - time1
     if timedelta > 0.5:
      dutycycle = 5
-     n = 0.1
+     n = 0.2
     else:
      dutycycle = dutycycle
-    n += 0.05
+    n += 0.1
     dutycycle = 20 * (1 - math.exp(-n))
     motor1_reverse()
     motor2_forward()
@@ -154,7 +154,7 @@ while True:
     if dutycycle > 10:
         motor1_reverse()
         motor2_forward()
-        motor1.ChangeDutyCycle(dutycycle * 1.5)
+        motor1.ChangeDutyCycle(dutycycle * 2)
         motor2.ChangeDutyCycle(dutycycle * k )
     else:
         motor1_reverse()
@@ -177,7 +177,7 @@ while True:
        motor1_reverse()
        motor2_forward()
        motor1.ChangeDutyCycle(dutycycle )
-       motor2.ChangeDutyCycle(dutycycle * k * 1.5)
+       motor2.ChangeDutyCycle(dutycycle * k * 2)
     else:
        motor1_forward()
        motor2_forward()
