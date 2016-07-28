@@ -3,6 +3,7 @@ io.setmode(io.BOARD)
 import sys, tty, termios, time
 import cwiid
 import math
+import threading
 
 # These two blocks of code configure the PWM settings for
 # the two DC motors on the RC car. It defines the two GPIO
@@ -32,8 +33,8 @@ io.setup(32, io.OUT)
 io.output(32, True)
 
 #ultrasonic 
-ultrasonic_trigger = 
-ultrasonic_echo = 
+ultrasonic_trigger = 18 
+ultrasonic_echo = 22
 io.setup(ultrasonic_trigger, io.OUT)
 io.setup(ultrasonic_echo, io.IN)
 
@@ -71,10 +72,10 @@ io.output(motor2_in2_pin, False)
 #dutycycle
 dutycycle = 5
 k = 0.55
-n = 1
+n = 0.1
 time1 = time.time()
 start = time.time()
-distance = 10
+dis = 10
 #wii remote
 button_delay = 0.1
 
@@ -83,7 +84,7 @@ def moving_forward():
     timedelta = time2 - time1
     if timedelta > 0.5:
      dutycycle = 5
-     n = 1
+     n = 0.1
     else:
      dutycycle = dutycycle
     
@@ -92,12 +93,17 @@ def moving_forward():
     else:
         dutycycle = dutycycle
    
-    n += 1
+    n += 0.1
+    dutycycle = 20 * (1 - math.exp(-n))
+    if dis < 5:
+        dutycycle = 0
+    else:
+        dutycycle = dutycycle
     
     motor1_reverse()
     motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle * (1 - math.exp(-n)))
-    motor2.ChangeDutyCycle(dutycycle * k * (1 - math.exp(-n)))
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -112,8 +118,17 @@ def distance():
     while io.input(ultrasonic_echo)==1:
         stop = time.time()
         
-    distance = (stop - start) * 34300 / 2
+    dis = (stop - start) * 34300 / 2
 
+#create threads
+threads = []
+t1 = threading.Thread(target=moving_forward, args = ())
+threads.append(t1)
+t2 = threading.Thread(target=distance, args = ())
+threads.append(t2)
+
+
+#connect wii remote
 print 'press 1+2 on your wii remote now ...'
 time.sleep(1)
 wii = None
@@ -173,7 +188,9 @@ while True:
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
-    moving_forward()
+    print dis
+    t1.start()
+    t2.start()
 
 
   if (buttons & cwiid.BTN_UP):
@@ -186,14 +203,14 @@ while True:
      dutycycle = dutycycle
     if dutycycle > 10:
         motor1_reverse()
+        motor2_forward()
+        motor1.ChangeDutyCycle(dutycycle * 2)
+        motor2.ChangeDutyCycle(dutycycle * k )
+    else:
+        motor1_reverse()
         motor2_reverse()
         motor1.ChangeDutyCycle(dutycycle)
         motor2.ChangeDutyCycle(dutycycle * k)
-    else:
-        motor1_reverse()
-        motor2_forward()
-        motor1.ChangeDutyCycle(dutycycle)
-        motor2.ChangeDutyCycle(dutycycle * k * 0.3)
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -206,15 +223,15 @@ while True:
      dutycycle = 5
     else:
      dutycycle = dutycycle
-    if dutycycle > 10:
+     if dutycycle > 10:
+       motor1_reverse()
+       motor2_forward()
+       motor1.ChangeDutyCycle(dutycycle )
+       motor2.ChangeDutyCycle(dutycycle * k * 2)
+    else:
        motor1_forward()
        motor2_forward()
        motor1.ChangeDutyCycle(dutycycle)
-       motor2.ChangeDutyCycle(dutycycle * k)
-    else:
-       motor1_reverse()
-       motor2_forward()
-       motor1.ChangeDutyCycle(dutycycle * 0.3)
        motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
     time1 = time.time()
