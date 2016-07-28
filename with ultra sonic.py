@@ -31,6 +31,14 @@ motor2.ChangeDutyCycle(0)
 io.setup(32, io.OUT)
 io.output(32, True)
 
+#ultrasonic 
+ultrasonic_trigger = 
+ultrasonic_echo = 
+io.setup(ultrasonic_trigger, io.OUT)
+io.setup(ultrasonic_echo, io.IN)
+
+io.output(ultrasonic_trigger, False)
+
 # This section of code defines the methods used to determine
 # whether a motor needs to spin forward or backwards. The
 # different directions are acheived by setting one of the
@@ -65,8 +73,47 @@ dutycycle = 5
 k = 0.55
 n = 1
 time1 = time.time()
+start = time.time()
+distance = 10
 #wii remote
 button_delay = 0.1
+
+def moving_forward():
+    time2 = time.time()
+    timedelta = time2 - time1
+    if timedelta > 0.5:
+     dutycycle = 5
+     n = 1
+    else:
+     dutycycle = dutycycle
+    
+    if distance < 5:
+        dutycycle = 0
+    else:
+        dutycycle = dutycycle
+   
+    n += 1
+    
+    motor1_reverse()
+    motor2_forward()
+    motor1.ChangeDutyCycle(dutycycle * (1 - math.exp(-n)))
+    motor2.ChangeDutyCycle(dutycycle * k * (1 - math.exp(-n)))
+    time.sleep(button_delay)
+    time1 = time.time()
+
+def distance():
+    io.output(ultrasonic_trigger, True)
+    time.sleep(0.00001)
+    io.output(ultrasonic_trigger, False)
+    
+    while io.input(ultrasonic_echo)==0:
+        start = time.time()
+        
+    while io.input(ultrasonic_echo)==1:
+        stop = time.time()
+        
+    distance = (stop - start) * 34300 / 2
+
 print 'press 1+2 on your wii remote now ...'
 time.sleep(1)
 wii = None
@@ -126,20 +173,7 @@ while True:
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
-    time2 = time.time()
-    timedelta = time2 - time1
-    if timedelta > 0.5:
-     dutycycle = 5
-     n = 1
-    else:
-     dutycycle = dutycycle
-    n += 1
-    motor1_reverse()
-    motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle * (1 - math.exp(-n)))
-    motor2.ChangeDutyCycle(dutycycle * k * (1 - math.exp(-n)))
-    time.sleep(button_delay)
-    time1 = time.time()
+    moving_forward()
 
 
   if (buttons & cwiid.BTN_UP):
