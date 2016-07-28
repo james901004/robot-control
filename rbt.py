@@ -134,10 +134,11 @@ while True:
     else:
      dutycycle = dutycycle
     n += 1
+    dutycycle = 20 * (1 - math.exp(-n))
     motor1_reverse()
     motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle * (1 - math.exp(-n)))
-    motor2.ChangeDutyCycle(dutycycle * k * (1 - math.exp(-n)))
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle * k )
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -151,15 +152,15 @@ while True:
     else:
      dutycycle = dutycycle
     if dutycycle > 10:
+        motor1_forward()
+        motor2_reverse()
+        motor1.ChangeDutyCycle(dutycycle)
+        motor2.ChangeDutyCycle(dutycycle * k * 0.3)
+    else:
         motor1_reverse()
         motor2_reverse()
         motor1.ChangeDutyCycle(dutycycle)
         motor2.ChangeDutyCycle(dutycycle * k)
-    else:
-        motor1_reverse()
-        motor2_forward()
-        motor1.ChangeDutyCycle(dutycycle)
-        motor2.ChangeDutyCycle(dutycycle * k * 0.3)
     time.sleep(button_delay)
     time1 = time.time()
 
@@ -173,14 +174,14 @@ while True:
     else:
      dutycycle = dutycycle
     if dutycycle > 10:
-       motor1_forward()
-       motor2_forward()
-       motor1.ChangeDutyCycle(dutycycle)
-       motor2.ChangeDutyCycle(dutycycle * k)
-    else:
        motor1_reverse()
        motor2_forward()
        motor1.ChangeDutyCycle(dutycycle * 0.3)
+       motor2.ChangeDutyCycle(dutycycle * k)
+    else:
+       motor1_forward()
+       motor2_forward()
+       motor1.ChangeDutyCycle(dutycycle)
        motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
     time1 = time.time()
