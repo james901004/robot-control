@@ -24,8 +24,8 @@ GPIO_ECHO    = 22
 print "Ultrasonic Measurement"
 
 # Set pins as output and input
-GPIO.setup(GPIO_TRIGGER,GPIO.OUT)  # Trigger
-GPIO.setup(GPIO_ECHO,GPIO.IN)      # Echo
+GPIO.setup(GPIO_TRIGGER,GPIO.OUT)  
+GPIO.setup(GPIO_ECHO,GPIO.IN)      
 
 # Set trigger to False (Low)
 GPIO.output(GPIO_TRIGGER, False)
