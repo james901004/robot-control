@@ -79,7 +79,7 @@ start = time.time() #distance
 dis = 50
 
 #wii remote
-button_delay = 0.01
+button_delay = 0.1
 
     
 
