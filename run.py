@@ -89,43 +89,22 @@ def forward(self):
     global n
     global dis
     
-    time2 = time.time()
-    timedelta = time2 - time1
-    if timedelta > 0.5:
-     dutycycle = 5
-     n = 0.1
-    else:
-     dutycycle = dutycycle
-    n += 0.1
-    #speed up
-    dutycycle = 20 * (1 - math.exp(-n))
-    #when distance smaller than 5, stop
-    print dis
-    if dis < 15:
-        dutycycle = 0
-    else:
-        dutycycle = dutycycle
-    motor1_forward()
-    motor2_reverse()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
-    time.sleep(button_delay)
-    time1 = time.time()
 
-def distance(self):
-    global dis
-    io.output(ultrasonic_trigger, True)
-    time.sleep(0.00001)
-    io.output(ultrasonic_trigger, False)
+
+#def distance(self):
+#    global dis
+#    io.output(ultrasonic_trigger, True)
+#    time.sleep(0.00001)
+#    io.output(ultrasonic_trigger, False)
     
-    while io.input(ultrasonic_echo)==0:
-        start = time.time()
+#    while io.input(ultrasonic_echo)==0:
+#        start = time.time()
+#        
+#    while io.input(ultrasonic_echo)==1:
+#        stop = time.time()
         
-    while io.input(ultrasonic_echo)==1:
-        stop = time.time()
-        
-    dis = (stop - start) * 34300 / 2
-    print dis
+#    dis = (stop - start) * 34300 / 2
+#    print dis
 
 #connect wii remote
 print 'press 1+2 on your wii remote now ...'
@@ -172,6 +151,19 @@ while True:
   # and the predefined constant for that button.
   if (buttons & cwiid.BTN_LEFT):
     print 'Left pressed'
+    io.output(ultrasonic_trigger, True)
+    time.sleep(0.00001)
+    io.output(ultrasonic_trigger, False)
+    
+    while io.input(ultrasonic_echo)==0:
+        start = time.time()
+        
+    while io.input(ultrasonic_echo)==1:
+        stop = time.time()
+        
+    dis = (stop - start) * 34300 / 2
+    print dis
+    
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.5:
@@ -189,14 +181,32 @@ while True:
     print 'Right pressed'
     #mulitprocess
     #measure distance while going ahead
-    p1 = multiprocessing.Process(target = distance, args = (2,))
-    p2 = multiprocessing.Process(target = forward, args = (2,))
-    p1.daemon = True
-    p1.start()
-    p2.daemon = True
-    p2.start()
-    
+        time2 = time.time()
+    timedelta = time2 - time1
+    if timedelta > 0.5:
+     dutycycle = 5
+     n = 0.1
+    else:
+     dutycycle = dutycycle
+    n += 0.1
+    #speed up
+    dutycycle = 20 * (1 - math.exp(-n))
+    #when distance smaller than 5, stop
+    print dis
+    if dis < 15:
+        dutycycle = 0
+    else:
+        dutycycle = dutycycle
+    motor1_forward()
+    motor2_reverse()
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
+    time1 = time.time()
+    #p1 = multiprocessing.Process(target = distance, args = (2,))
+    #p1.daemon = True
+    #p1.start()
+
 
 
     
