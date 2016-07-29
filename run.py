@@ -82,6 +82,7 @@ button_delay = 0.1
 
 def moving_forward(self):
     global time1
+    global dutycycle
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.5:
