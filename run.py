@@ -3,7 +3,8 @@ io.setmode(io.BOARD)
 import sys, tty, termios, time
 import cwiid
 import math
-import threading
+import multiprocessing
+
 
 # These two blocks of code configure the PWM settings for
 # the two DC motors on the RC car. It defines the two GPIO
@@ -121,14 +122,6 @@ def distance():
         
     dis = (stop - start) * 34300 / 2
 
-#create threads
-threads = []
-t1 = threading.Thread(target=moving_forward, args = ())
-threads.append(t1)
-t2 = threading.Thread(target=distance, args = ())
-threads.append(t2)
-
-
 #connect wii remote
 print 'press 1+2 on your wii remote now ...'
 time.sleep(1)
@@ -190,11 +183,15 @@ while True:
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
     print dis
-    t1.setDaemon(True)
-    t1.start()
-    t2.setDaemon(True)
-    t2.start()
-    time.sleep((button_delay))
+    p1 = multiprocessing.Process(target = moving_forward, args = (2,))
+    p2 = multiprocessing.Process(target = distance, args = (3,))
+    
+    p1.daemon = True
+    p1.start()
+    p2.daemon = True
+    p2.start()
+    
+    time.sleep(button_delay)
 
 
   if (buttons & cwiid.BTN_UP):
