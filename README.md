@@ -13,4 +13,4 @@ press -&+ to disconnect from PI
 
 remove the file: rm -rf robot-control
 download the file: git clone https://github.com/james901004/robot-control
-
+change autostart sudo nano /etc/rc.local
