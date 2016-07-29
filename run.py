@@ -109,6 +109,8 @@ def forward(self):
     motor2_reverse()
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle * k)
+    time.sleep(button_delay)
+    time1 = time.time()
 
 def distance(self):
     global dis
@@ -188,14 +190,14 @@ while True:
     #mulitprocess
     #measure distance while going ahead
     p1 = multiprocessing.Process(target = distance, args = (2,))
-    p2 = multiprocessing.Process(target = forward, args = (3,))
+    p2 = multiprocessing.Process(target = forward, args = (2,))
     p1.daemon = True
     p1.start()
     p2.daemon = True
     p2.start()
     
     time.sleep(button_delay)
-    time1 = time.time()
+
 
     
 
