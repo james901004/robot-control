@@ -80,6 +80,7 @@ dis = 10
 button_delay = 0.1
 
 def moving_forward():
+    global time1
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.5:
