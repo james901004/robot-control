@@ -223,7 +223,7 @@ while True:
      dutycycle = 5
     else:
      dutycycle = dutycycle
-     if dutycycle > 10:
+    if dutycycle > 10:
        motor1_reverse()
        motor2_forward()
        motor1.ChangeDutyCycle(dutycycle )
