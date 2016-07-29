@@ -72,11 +72,12 @@ io.output(motor2_in2_pin, False)
 
 #dutycycle
 dutycycle = 5
-k = 0.55
+k = 0.55 #remove when right motor fixed
 n = 0.1
-time1 = time.time()
-start = time.time()
+time1 = time.time() #reduce speed
+start = time.time() #distance
 dis = 10
+
 #wii remote
 button_delay = 0.1
 
@@ -141,7 +142,7 @@ while True:
   # doing a bitwise AND of the buttons number
   # and the predefined constant for that button.
   if (buttons & cwiid.BTN_LEFT):
-    print 'Left pressed'
+    print 'Left pressed'#go back 
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.5:
@@ -158,6 +159,7 @@ while True:
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
     #mulitprocess
+    #measure distance while going ahead
     p = multiprocessing.Process(target = distance, args = (2,))
     p.daemon = True
     p.start()
@@ -170,7 +172,9 @@ while True:
     else:
      dutycycle = dutycycle
     n += 0.1
+    #speed up
     dutycycle = 20 * (1 - math.exp(-n))
+    #when distance smaller than 5, stop
     if dis < 5:
         dutycycle = 0
     else:
@@ -190,6 +194,7 @@ while True:
      dutycycle = 5
     else:
      dutycycle = dutycycle
+    #when dutycycle greater than 10, go forward
     if dutycycle > 10:
         motor1_reverse()
         motor2_forward()
@@ -212,6 +217,7 @@ while True:
      dutycycle = 5
     else:
      dutycycle = dutycycle
+    #when dutycycle greater than 10, go forward
     if dutycycle > 10:
        motor1_reverse()
        motor2_forward()
@@ -226,6 +232,7 @@ while True:
     time1 = time.time()
 
   if (buttons & cwiid.BTN_1):
+    #speed down
     print 'Button 1 pressed'
     time.sleep(0.1)
     if dutycycle > 5:
@@ -234,6 +241,7 @@ while True:
         dutycycle = 5
     
   if (buttons & cwiid.BTN_2):
+    #speed up
     print 'Button 2 pressed'
     time.sleep(0.1) 
     if dutycycle < 20:
@@ -242,6 +250,7 @@ while True:
         dutycycle = 20
 
   if (buttons & cwiid.BTN_A):
+    #reset speed
     print 'Button A pressed'
     time.sleep(button_delay)
     dutycycle = 3
