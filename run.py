@@ -80,31 +80,8 @@ dis = 10
 #wii remote
 button_delay = 0.1
 
-def moving_forward(self):
-    global time1
-    global dutycycle
-    global n
-    time2 = time.time()
-    timedelta = time2 - time1
-    if timedelta > 0.5:
-     dutycycle = 5
-     n = 0.1
-    else:
-     dutycycle = dutycycle
-    n += 0.1
-    dutycycle = 20 * (1 - math.exp(-n))
-    if dis < 5:
-        dutycycle = 0
-    else:
-        dutycycle = dutycycle
-    motor1_reverse()
-    motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
-    time.sleep(button_delay)
-    time1 = time.time()
-
 def distance(self):
+    global dis
     io.output(ultrasonic_trigger, True)
     time.sleep(0.00001)
     io.output(ultrasonic_trigger, False)
@@ -116,6 +93,7 @@ def distance(self):
         stop = time.time()
         
     dis = (stop - start) * 34300 / 2
+    print dis
 
 #connect wii remote
 print 'press 1+2 on your wii remote now ...'
@@ -177,17 +155,30 @@ while True:
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
-    print dis
-    p1 = multiprocessing.Process(target = moving_forward, args = (2,))
-    p2 = multiprocessing.Process(target = distance, args = (3,))
     
-    p1.daemon = True
-    p1.start()
-    p2.daemon = True
-    p2.start()
+    p = multiprocessing.Process(target = distance, args = (2,))
+    p.daemon = True
+    p.start()
     
+    time2 = time.time()
+    timedelta = time2 - time1
+    if timedelta > 0.5:
+     dutycycle = 5
+     n = 0.1
+    else:
+     dutycycle = dutycycle
+    n += 0.1
+    dutycycle = 20 * (1 - math.exp(-n))
+    if dis < 5:
+        dutycycle = 0
+    else:
+        dutycycle = dutycycle
+    motor1_reverse()
+    motor2_forward()
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
-
+    time1 = time.time()
 
   if (buttons & cwiid.BTN_UP):
     print 'Up pressed'
