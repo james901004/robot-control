@@ -142,22 +142,7 @@ while True:
   # doing a bitwise AND of the buttons number
   # and the predefined constant for that button.
   if (buttons & cwiid.BTN_LEFT):
-    print 'Left pressed'#go back 
-    time2 = time.time()
-    timedelta = time2 - time1
-    if timedelta > 0.5:
-     dutycycle = 5
-    else:
-     dutycycle = dutycycle
-    motor1_forward()
-    motor2_reverse()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
-    time.sleep(button_delay)
-    time1 = time.time()
-
-  if(buttons & cwiid.BTN_RIGHT):
-    print 'Right pressed'
+    print 'Left pressed'
     #mulitprocess
     #measure distance while going ahead
     p = multiprocessing.Process(target = distance, args = (2,))
@@ -185,6 +170,23 @@ while True:
     motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
     time1 = time.time()
+    
+  if(buttons & cwiid.BTN_RIGHT):
+    print 'Right pressed'
+    
+    time2 = time.time()
+    timedelta = time2 - time1
+    if timedelta > 0.5:
+     dutycycle = 5
+    else:
+     dutycycle = dutycycle
+    motor1_forward()
+    motor2_reverse()
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle * k)
+    time.sleep(button_delay)
+    time1 = time.time()
+    
 
   if (buttons & cwiid.BTN_UP):
     print 'Up pressed'
@@ -196,10 +198,10 @@ while True:
      dutycycle = dutycycle
     #when dutycycle greater than 10, go forward
     if dutycycle > 10:
-        motor1_reverse()
-        motor2_forward()
-        motor1.ChangeDutyCycle(dutycycle * 2)
-        motor2.ChangeDutyCycle(dutycycle * k )
+        motor1_forward()
+        motor2_reverse()
+        motor1.ChangeDutyCycle(dutycycle )
+        motor2.ChangeDutyCycle(dutycycle * k * 2)
     else:
         motor1_reverse()
         motor2_reverse()
@@ -219,10 +221,10 @@ while True:
      dutycycle = dutycycle
     #when dutycycle greater than 10, go forward
     if dutycycle > 10:
-       motor1_reverse()
-       motor2_forward()
-       motor1.ChangeDutyCycle(dutycycle )
-       motor2.ChangeDutyCycle(dutycycle * k * 2)
+       motor1_forward()
+       motor2_reverse()
+       motor1.ChangeDutyCycle(dutycycle * 2)
+       motor2.ChangeDutyCycle(dutycycle * k )
     else:
        motor1_forward()
        motor2_forward()
