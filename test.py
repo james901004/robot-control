@@ -34,7 +34,7 @@ GPIO.output(GPIO_TRIGGER, False)
 time.sleep(0.5)
 i=1
 
-while i<100
+while i<100:
   i=i+1
 # Send 10us pulse to trigger
   GPIO.output(GPIO_TRIGGER, True)
@@ -59,6 +59,7 @@ while i<100
   distance = distance / 2
 
   print "Distance : %.1f" % distance
+  time.sleep(1)
 
 # Reset GPIO settings
 GPIO.cleanup()
