@@ -83,6 +83,7 @@ button_delay = 0.1
 def moving_forward(self):
     global time1
     global dutycycle
+    global n
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.5:
@@ -90,19 +91,12 @@ def moving_forward(self):
      n = 0.1
     else:
      dutycycle = dutycycle
-    
-    if distance < 5:
-        dutycycle = 0
-    else:
-        dutycycle = dutycycle
-   
     n += 0.1
     dutycycle = 20 * (1 - math.exp(-n))
     if dis < 5:
         dutycycle = 0
     else:
         dutycycle = dutycycle
-    
     motor1_reverse()
     motor2_forward()
     motor1.ChangeDutyCycle(dutycycle)
