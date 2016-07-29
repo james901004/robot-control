@@ -79,7 +79,7 @@ start = time.time() #distance
 dis = 20
 
 #wii remote
-button_delay = 0.1
+button_delay = 0.2
 
 #ultrasonic measure distance
 
@@ -176,6 +176,7 @@ while True:
     #speed up
     dutycycle = 20 * (1 - math.exp(-n))
     #when distance smaller than 5, stop
+    print dis
     if dis < 15:
         dutycycle = 0
     else:
