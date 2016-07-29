@@ -143,6 +143,22 @@ while True:
   # and the predefined constant for that button.
   if (buttons & cwiid.BTN_LEFT):
     print 'Left pressed'
+    time2 = time.time()
+    timedelta = time2 - time1
+    if timedelta > 0.5:
+     dutycycle = 5
+    else:
+     dutycycle = dutycycle
+    motor1_reverse()
+    motor2_forward()
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle * k)
+    time.sleep(button_delay)
+    time1 = time.time()
+    
+  if(buttons & cwiid.BTN_RIGHT):
+    print 'Right pressed'
+    
     #mulitprocess
     #measure distance while going ahead
     p = multiprocessing.Process(target = distance, args = (2,))
@@ -164,28 +180,13 @@ while True:
         dutycycle = 0
     else:
         dutycycle = dutycycle
-    motor1_reverse()
-    motor2_forward()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
-    time.sleep(button_delay)
-    time1 = time.time()
-    
-  if(buttons & cwiid.BTN_RIGHT):
-    print 'Right pressed'
-    
-    time2 = time.time()
-    timedelta = time2 - time1
-    if timedelta > 0.5:
-     dutycycle = 5
-    else:
-     dutycycle = dutycycle
     motor1_forward()
     motor2_reverse()
     motor1.ChangeDutyCycle(dutycycle)
     motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
     time1 = time.time()
+
     
 
   if (buttons & cwiid.BTN_UP):
