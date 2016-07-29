@@ -151,19 +151,6 @@ while True:
   # and the predefined constant for that button.
   if (buttons & cwiid.BTN_LEFT):
     print 'Left pressed'
-    io.output(ultrasonic_trigger, True)
-    time.sleep(0.00001)
-    io.output(ultrasonic_trigger, False)
-    
-    while io.input(ultrasonic_echo)==0:
-        start = time.time()
-        
-    while io.input(ultrasonic_echo)==1:
-        stop = time.time()
-        
-    dis = (stop - start) * 34300 / 2
-    print dis
-    
     time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.5:
@@ -181,7 +168,20 @@ while True:
     print 'Right pressed'
     #mulitprocess
     #measure distance while going ahead
-        time2 = time.time()
+    io.output(ultrasonic_trigger, True)
+    time.sleep(0.00001)
+    io.output(ultrasonic_trigger, False)
+    
+    while io.input(ultrasonic_echo)==0:
+        start = time.time()
+        
+    while io.input(ultrasonic_echo)==1:
+        stop = time.time()
+        
+    dis = (stop - start) * 34300 / 2
+    print dis
+    
+    time2 = time.time()
     timedelta = time2 - time1
     if timedelta > 0.5:
      dutycycle = 5
