@@ -82,6 +82,33 @@ dis = 20
 button_delay = 0.2
 
 #ultrasonic measure distance
+def forward(self):
+    global dutycycle
+    global time1
+    global time2
+    global n
+    global dis
+    
+    time2 = time.time()
+    timedelta = time2 - time1
+    if timedelta > 0.5:
+     dutycycle = 5
+     n = 0.1
+    else:
+     dutycycle = dutycycle
+    n += 0.1
+    #speed up
+    dutycycle = 20 * (1 - math.exp(-n))
+    #when distance smaller than 5, stop
+    print dis
+    if dis < 15:
+        dutycycle = 0
+    else:
+        dutycycle = dutycycle
+    motor1_forward()
+    motor2_reverse()
+    motor1.ChangeDutyCycle(dutycycle)
+    motor2.ChangeDutyCycle(dutycycle * k)
 
 def distance(self):
     global dis
@@ -158,33 +185,15 @@ while True:
     
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
-    
     #mulitprocess
     #measure distance while going ahead
-    p = multiprocessing.Process(target = distance, args = (2,))
-    p.daemon = True
-    p.start()
+    p1 = multiprocessing.Process(target = distance, args = (2,))
+    p1 = multiprocessing.Process(target = forward, args = (3,))
+    p1.daemon = True
+    p1.start()
+    p2.daemon = True
+    p2.start()
     
-    time2 = time.time()
-    timedelta = time2 - time1
-    if timedelta > 0.5:
-     dutycycle = 5
-     n = 0.1
-    else:
-     dutycycle = dutycycle
-    n += 0.1
-    #speed up
-    dutycycle = 20 * (1 - math.exp(-n))
-    #when distance smaller than 5, stop
-    print dis
-    if dis < 15:
-        dutycycle = 0
-    else:
-        dutycycle = dutycycle
-    motor1_forward()
-    motor2_reverse()
-    motor1.ChangeDutyCycle(dutycycle)
-    motor2.ChangeDutyCycle(dutycycle * k)
     time.sleep(button_delay)
     time1 = time.time()
 
