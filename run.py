@@ -188,7 +188,7 @@ while True:
     #mulitprocess
     #measure distance while going ahead
     p1 = multiprocessing.Process(target = distance, args = (2,))
-    p1 = multiprocessing.Process(target = forward, args = (3,))
+    p2 = multiprocessing.Process(target = forward, args = (3,))
     p1.daemon = True
     p1.start()
     p2.daemon = True
