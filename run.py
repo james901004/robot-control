@@ -80,7 +80,7 @@ dis = 10
 #wii remote
 button_delay = 0.1
 
-def moving_forward():
+def moving_forward(self):
     global time1
     time2 = time.time()
     timedelta = time2 - time1
@@ -109,7 +109,7 @@ def moving_forward():
     time.sleep(button_delay)
     time1 = time.time()
 
-def distance():
+def distance(self):
     io.output(ultrasonic_trigger, True)
     time.sleep(0.00001)
     io.output(ultrasonic_trigger, False)
