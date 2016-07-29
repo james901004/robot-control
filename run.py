@@ -80,6 +80,8 @@ dis = 10
 #wii remote
 button_delay = 0.1
 
+#ultrasonic measure distance
+
 def distance(self):
     global dis
     io.output(ultrasonic_trigger, True)
@@ -104,7 +106,7 @@ while not wii:
  try:
      wii=cwiid.Wiimote()
  except RuntimeError:
-     if (i>50):
+     if (i>50):#enlarge this number if you want longer waiting time 
          print "Error opening wiimote connection"
          io.output(32, False)
          io.cleanup()
@@ -155,7 +157,7 @@ while True:
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
-    
+    #mulitprocess
     p = multiprocessing.Process(target = distance, args = (2,))
     p.daemon = True
     p.start()
