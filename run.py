@@ -76,18 +76,11 @@ k = 0.55 #remove when right motor fixed
 n = 0.1
 time1 = time.time() #reduce speed
 start = time.time() #distance
-dis = 20
+dis = 50
 
 #wii remote
-button_delay = 0.2
+button_delay = 0.05
 
-#ultrasonic measure distance
-def forward(self):
-    global dutycycle
-    global time1
-    global time2
-    global n
-    global dis
     
 
 
@@ -153,7 +146,7 @@ while True:
     print 'Left pressed'
     time2 = time.time()
     timedelta = time2 - time1
-    if timedelta > 0.5:
+    if timedelta > 0.3:
      dutycycle = 5
     else:
      dutycycle = dutycycle
@@ -183,7 +176,7 @@ while True:
     
     time2 = time.time()
     timedelta = time2 - time1
-    if timedelta > 0.5:
+    if timedelta > 0.3:
      dutycycle = 5
      n = 0.1
     else:
@@ -193,7 +186,7 @@ while True:
     dutycycle = 20 * (1 - math.exp(-n))
     #when distance smaller than 5, stop
     print dis
-    if dis < 15:
+    if dis < 30:
         dutycycle = 0
     else:
         dutycycle = dutycycle
@@ -215,7 +208,7 @@ while True:
     print 'Up pressed'
     time2 = time.time()
     timedelta = time2 - time1
-    if timedelta > 0.5:
+    if timedelta > 0.3:
      dutycycle = 5
     else:
      dutycycle = dutycycle
@@ -238,7 +231,7 @@ while True:
     print 'Down pressed'
     time2 = time.time()
     timedelta = time2 - time1
-    if timedelta > 0.5:
+    if timedelta > 0.3:
      dutycycle = 5
     else:
      dutycycle = dutycycle
@@ -278,7 +271,7 @@ while True:
     #reset speed
     print 'Button A pressed'
     time.sleep(button_delay)
-    dutycycle = 3
+    dutycycle = 5
 
   if (buttons & cwiid.BTN_B):
     print 'Button B pressed'
