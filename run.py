@@ -190,8 +190,11 @@ while True:
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
     print dis
+    t1.setDaemon(True)
     t1.start()
+    t2.setDaemon(True)
     t2.start()
+    time.sleep((button_delay))
 
 
   if (buttons & cwiid.BTN_UP):
