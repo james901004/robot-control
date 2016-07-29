@@ -177,16 +177,20 @@ while True:
 
   if(buttons & cwiid.BTN_RIGHT):
     print 'Right pressed'
+    io.output(ultrasonic_trigger, True)
+    time.sleep(0.00001)
+    io.output(ultrasonic_trigger, False)
+    
+    while io.input(ultrasonic_echo)==0:
+        start = time.time()
+        
+    while io.input(ultrasonic_echo)==1:
+        stop = time.time()
+        
+    dis = (stop - start) * 34300 / 2
+    
     print dis
-    p1 = multiprocessing.Process(target = moving_forward, args = (2,))
-    p2 = multiprocessing.Process(target = distance, args = (3,))
-    
-    p1.daemon = True
-    p1.start()
-    p2.daemon = True
-    p2.start()
-    
-    time.sleep(button_delay)
+
 
 
   if (buttons & cwiid.BTN_UP):
