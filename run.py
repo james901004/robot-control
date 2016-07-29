@@ -76,7 +76,7 @@ k = 0.55 #remove when right motor fixed
 n = 0.1
 time1 = time.time() #reduce speed
 start = time.time() #distance
-dis = 10
+dis = 20
 
 #wii remote
 button_delay = 0.1
@@ -176,7 +176,7 @@ while True:
     #speed up
     dutycycle = 20 * (1 - math.exp(-n))
     #when distance smaller than 5, stop
-    if dis < 5:
+    if dis < 15:
         dutycycle = 0
     else:
         dutycycle = dutycycle
